@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/%22%3E">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Shop Homepage - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    </head>
+    <body>
+    <header>
+        <!--Navigation panel-->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand ms-2" href="/">Магазин игрушек</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <form action="/">
+                                <button class="btn text-light" aria-current="page" href="/">Главная</button>
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            <form action="/catalog"><button class="btn text-light">Каталог</button></form>
+                        </li>
+                        <li class="nav-item">
+                            <form action="/about"><button class="btn text-light" >О нас</button></form>
+                        </li>
+                    </ul>
+                    <form class="d-flex" action="/cart">
+                        <button class="btn btn-outline-light " type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Корзина
+                        </button>
+                        <button type="button" class="btn  ms-1  btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginForm" sec:authorize="!isAuthenticated()">Войти или зарегистрироваться</button>
+                    </form>
+                    <form th:action="@{/logout}" method="POST"  sec:authorize="isAuthenticated()">
+                        <button type="submit" class="btn  ms-1  btn-outline-light">Выйти</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!--Login form-->
+    <div class="modal fade" id="loginForm" tabindex="-1" aria-hidden="true" aria-labelledby="loginFormLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginFormLabel">Войти</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="login_form" th:method="POST" action="/login" >
+                        <div class="row mb-3">
+                            <label for="inputAuthEmail" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="username" id="inputAuthEmail">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputAuthPass" class="col-sm-2 col-form-label">Пароль</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password" id="inputAuthPass">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button form="login_form" type="submit" class="btn btn-success" >Войти</button>
+                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registrationForm">Зарегистрироваться</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Registration form-->
+    <div class="modal fade" id="registrationForm" tabindex="-1" aria-hidden="true" aria-labelledby="registrationFormLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrationFormLabel">Зарегистрироваться</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                <div class="modal-body" >
+                    <form id="reg_form" th:method="POST" th:action="@{/registration}" th:object="${new_user}">
+                        <div class="row mb-3">
+                            <label for="inputName" class="col-sm-2 col-form-label">Имя</label>
+                            <div class="col-sm-10">
+                                <input th:field="*{name}" type="text" class="form-control" id="inputName">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputTel" class="col-sm-2 col-form-label">Телефон</label>
+                            <div class="col-sm-10">
+                                <input th:field="*{telephone}" type="tel" class="form-control" id="inputTel">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input th:field="*{username}" type="email" class="form-control" id="inputEmail">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="inputPass" class="col-sm-2 col-form-label">Пароль</label>
+                            <div class="col-sm-10">
+                                <input th:field="*{password}" type="password" class="form-control" id="inputPass">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="confirmPass" class="col-sm-2 col-form-label">Повторите пароль</label>
+                            <div class="col-sm-10">
+                                <input th:field="*{passwordConfirm}" type="password" class="form-control" id="confirmPass">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button form="reg_form" class="btn btn-success" type="submit" >Зарегистрироваться</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Navigation panel-->
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <div th:each="product : ${products}" class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" th:src="${product.getUrlToPhoto()}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 th:text="${product.getName()}" class="fw-bolder">Fancy Product</h5>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <p class="text-center" th:text="${product.getPrice()} + &#8381">$40.00 - $80.00</p>
+                                <div class="container">
+                                    <div th:replace="shop/quantity_control.html :: quantity_control(1, ${product.id})">Quantity</div>
+                                        <button type="submit" class="btn btn-outline-dark mt-auto addToCart"  th:pid="${product.id}">
+                                            Добавить в корзину
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="container">
+            <p class="float-end"><a href="#">Вернуться наверх</a></p>
+            <p>&copy; Магазин игрушек &middot; toyshop@gmail.com</p>
+          </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script th:src="@{/js/quantity_control.js}"></script>
+        <script th:src="@{/js/add_to_cart.js}"></script>
+    <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+
+    </body>
+</html>
